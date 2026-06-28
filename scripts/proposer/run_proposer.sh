@@ -4,22 +4,29 @@ set -euo pipefail
 usage() {
     cat <<EOF
 Usage:
-  $0 --sample SAMPLE --bam BAM --ref REF --outdir OUTDIR [options]
+  $0 --sample SAMPLE --bam BAM --ref REF --outdir OUTDIR \\
+     --min-mapq N --min-bq N \\
+     --min-snp-support N --min-indel-support N \\
+     --max-indel-len N --max-depth N \\
+     [--max-jobs N]
 
-Required:
-  --sample SAMPLE          Sample name, e.g. HG007
-  --bam BAM                Input BAM file
-  --ref REF                Reference FASTA
-  --outdir OUTDIR          Output directory
+Required inputs:
+  --sample SAMPLE              Sample name, e.g. HG007
+  --bam BAM                    Input BAM file
+  --ref REF                    Reference FASTA
+  --outdir OUTDIR              Output directory
 
-Options:
-  --max-jobs N             Number of chromosomes to process in parallel [default: 4]
-  --min-mapq N             Minimum mapping quality [default: 1]
-  --min-bq N               Minimum base quality [default: 1]
-  --min-snp-support N      Minimum SNP read support [default: 1]
-  --min-indel-support N    Minimum INDEL read support [default: 1]
-  --max-indel-len N        Maximum INDEL length [default: 80]
-  --max-depth N            Maximum mpileup depth [default: 7000]
+Required proposer parameters:
+  --min-mapq N                 Minimum read mapping quality
+  --min-bq N                   Minimum base quality
+  --min-snp-support N          Minimum reads supporting a SNP candidate
+  --min-indel-support N        Minimum reads supporting an INDEL candidate
+  --max-indel-len N            Maximum insertion/deletion length to keep
+  --max-depth N                Maximum mpileup depth
+
+Optional:
+  --max-jobs N                 Number of chromosomes processed in parallel [default: 4]
+  -h, --help                   Show this help message
 EOF
 }
 
