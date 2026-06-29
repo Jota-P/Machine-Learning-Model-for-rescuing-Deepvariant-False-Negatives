@@ -12,8 +12,18 @@ propose_candidates.py contains the candidate-generation logic and parses the out
 
 
 # Requirements
-  Python 3.10 or later
-  samtools
+```yaml
+name: dv-fn-rescue
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.10
+  - samtools
+  - bcftools
+  - htslib
+  - pysam
+```
 
 A conda environment can be created with:
 
@@ -75,6 +85,28 @@ bcftools concat
   --out-tsv results/{SAMPLE}/{OUT}.labeled.tsv.gz
 ```
 
+# Extract candidate features
+
+After candidate labelling, pileup-based features can be extracted for each labelled candidate site.
+
+The feature extractor uses the labelled TSV, the original BAM file, and the reference FASTA. For each candidate site, it runs `samtools mpileup` and computes read-support, allele-balance, strand-bias, base-quality, and local sequence-context features.
+
+#### Usage
+
+```bash
+./scripts/extract_features.sh \
+  --sample SAMPLE_NAME \
+  --labeled-tsv /path/to/candidates.labeled.tsv.gz \
+  --bam /path/to/input.bam \
+  --ref /path/to/reference.fa \
+  --outdir /path/to/features \
+  --min-mapq {var} \
+  --min-bq {var} \
+  --max-depth {var} \
+  --neg-keep-prob {var} \
+  --seed 42 \
+  --max-jobs {var}
+```
 
 
 
