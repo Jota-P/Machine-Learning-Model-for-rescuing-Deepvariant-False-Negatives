@@ -37,7 +37,7 @@ samtools faidx
 ```
 
 
-# Usage
+#### Usage
 
 ```bash
 ./scripts/run_proposer.sh \
@@ -52,6 +52,27 @@ samtools faidx
   --max-indel-len {var} \
   --max-depth {var} \
   --max-jobs {var}
+```
+
+# Labelling
+
+After candidate generation, candidate variants can be labelled using a truth VCF and a confident-region BED file.
+
+Candidates are first restricted to the confident regions. Then, each candidate is compared against the truth VCF using exact allele matching.
+This labelling expects a merged VCF from the proposer outputs. Which can be done via:
+
+```bash
+bcftools concat
+```
+
+#### Usage
+```bash
+./scripts/label_candidates.sh \
+  --sample {var} \
+  --candidates-vcf {var} \
+  --truth-vcf /path/to/{TRUTH}.vcf.gz \
+  --conf-bed /path/to/{CONF}.bed.gz \
+  --out-tsv results/{SAMPLE}/{OUT}.labeled.tsv.gz
 ```
 
 
